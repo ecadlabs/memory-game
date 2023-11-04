@@ -6,7 +6,7 @@ This project is a full-stack Taquito-based Tezos dApp that uses a custom Smart C
 
 These are the most important files in this project:
 
-├── dapp                  #  The Front End: TypeScript, HTML5, CSS
+├── dapp/                  #  The Front End: TypeScript, HTML5, CSS
 
    └── go.sh              #  CLI helpers for dApp development
 
@@ -14,13 +14,13 @@ These are the most important files in this project:
 
 ├── README.md             #  You are reading this now
 
-├── scs                   #  The Tezos Smart Contract / Blockchain part
+├── scs/                   #  The Tezos Smart Contract / Blockchain part
 
-   └── go.sh              #   The actual contracts themselves Tezos Smart Contracts (CameLIGO)
+   └── go.sh              #   CLI helpers for Smart Contract development
 
-   └── artifacts          #   CameLIGO Smart Contract and tests (of course!)
+   └── contracts/          #   CameLIGO Smart Contract and tests (of course!)
 
-   └── artifacts          #   Compiled versions of the contracts, for convenience
+   └── artifacts/          #   Compiled versions of the contracts, for convenience
 
 # Status
 
