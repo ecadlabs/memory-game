@@ -1,0 +1,32 @@
+{
+  "name": "memory",
+  "version": "1.0.0",
+  "description": "A dApp that interacts with the `memory.mligo` Tezos Smart Contract",
+  "private": true,
+  "scripts": {
+    "compile": "npx tsc",
+    "build": "parcel build index.html",
+    "start": "parcel index.html"
+  },
+  "keywords": [
+    "tezos",
+    "dapp",
+    "taquito"
+  ],
+  "author": "Edward Garson",
+  "license": "ISC",
+  "dependencies": {
+    "@airgap/beacon-sdk": "^4.0.12",
+    "@taquito/beacon-wallet": "^17.3.2",
+    "@taquito/signer": "^17.3.2",
+    "@taquito/taquito": "^17.3.2"
+  },
+  "devDependencies": {
+    "@taqueria/plugin-core": "^0.44.0",
+    "@taqueria/plugin-ligo": "^0.44.0",
+    "@taqueria/plugin-taquito": "^0.44.0",
+    "parcel-bundler": "^1.12.5",
+    "typescript": "^5.2.2"
+  },
+  "main": "index.js"
+}

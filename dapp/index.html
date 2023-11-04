@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Game</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Note, this is `npm run compile`-d TypeScript sourced from ./main.ts -->
+    <script src="dist/main.js"></script>
+  </head>
+  <body>
+    <h1>Memory Game</h1>
+    <div id='button-container'>
+      <button id="connectWallet" onclick="window.memoryWallet.connect()">
+        Connect Wallet
+      </button>
+      <button id="disconnectWallet" onclick="window.memoryWallet.disconnect()">
+        Disconnect Wallet
+      </button>
+      <button id="originateContract" onclick="window.memoryContract.originate()">
+        Originate Memory Contract
+      </button>
+      <!-- TODO DRY out contract address -->
+      <button id="loadContract" onclick="window.memoryContract.load('KT1GAg4fcYUKxJwtwVRs2hHjv2zLXNfTxdrN')">
+        Load Memory Contract
+      </button>
+      <br>
+      <br>
+      <div>
+        <button id="newGame" onclick="window.memoryContract.newGame('KT1GAg4fcYUKxJwtwVRs2hHjv2zLXNfTxdrN')">
+          New Game
+        </button>
+        <button id="playTurn" onclick="window.playTurn()">
+          Play Turn
+        </button>
+        <div id="level-label">Level: 1</div>
+      </div>
+    </div>
+    <br>
+    <div id="game-container">
+        <div class="quadrant" id="quadrant-1" onclick="window.quadrantClicked(1)"></div>
+        <div class="quadrant" id="quadrant-2" onclick="window.quadrantClicked(2)"></div>
+        <div class="quadrant" id="quadrant-3" onclick="window.quadrantClicked(3)"></div>
+        <div class="quadrant" id="quadrant-4" onclick="window.quadrantClicked(4)"></div>
+    </div>
+    <br/>
+  </body>
+</html>
