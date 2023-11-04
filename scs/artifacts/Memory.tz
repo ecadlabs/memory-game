@@ -1,0 +1,71 @@
+{ parameter
+    (or (pair %play_turn address (list int)) (pair %init_new_game address (list int))) ;
+  storage
+    (map address
+         (pair (int %level)
+               (list %sequence int)
+               (or %status (unit %playing) (or (unit %won) (unit %lost))))) ;
+  code { UNPAIR ;
+         IF_LEFT
+           { UNPAIR ;
+             DUP 3 ;
+             DUP 2 ;
+             GET ;
+             IF_NONE { PUSH string "MAP FIND" ; FAILWITH } {} ;
+             DUP ;
+             GET 3 ;
+             DIG 3 ;
+             PAIR ;
+             LEFT (or unit (or unit unit)) ;
+             LOOP_LEFT
+               { UNPAIR ;
+                 IF_CONS
+                   { DIG 2 ;
+                     IF_CONS
+                       { DIG 2 ;
+                         COMPARE ;
+                         NEQ ;
+                         IF { DROP 2 ; UNIT ; RIGHT unit ; RIGHT unit ; RIGHT (pair (list int) (list int)) }
+                            { SWAP ; PAIR ; LEFT (or unit (or unit unit)) } }
+                       { DROP 2 ; UNIT ; RIGHT unit ; RIGHT unit ; RIGHT (pair (list int) (list int)) } }
+                   { IF_CONS
+                       { DROP 2 ; UNIT ; LEFT (or unit unit) }
+                       { UNIT ; LEFT unit ; RIGHT unit } ;
+                     RIGHT (pair (list int) (list int)) } } ;
+             UNIT ;
+             RIGHT unit ;
+             RIGHT unit ;
+             DUP 2 ;
+             COMPARE ;
+             NEQ ;
+             IF { PUSH int 1 } { PUSH int 0 } ;
+             DUP 3 ;
+             CAR ;
+             ADD ;
+             DIG 4 ;
+             DIG 3 ;
+             DIG 2 ;
+             UPDATE 1 ;
+             DIG 2 ;
+             UPDATE 4 ;
+             DIG 2 ;
+             SWAP ;
+             SOME ;
+             SWAP ;
+             UPDATE }
+           { UNPAIR ;
+             UNIT ;
+             LEFT (or unit unit) ;
+             DIG 2 ;
+             PUSH int 0 ;
+             PAIR 3 ;
+             DIG 2 ;
+             SWAP ;
+             DIG 2 ;
+             SWAP ;
+             SOME ;
+             SWAP ;
+             UPDATE } ;
+         NIL operation ;
+         PAIR } }
+
