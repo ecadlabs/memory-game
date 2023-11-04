@@ -2,7 +2,7 @@
 
 This project is a full-stack Taquito-based Tezos dApp that uses a custom Smart Contract that implements a simple memory game.
 
-# CONTENTS
+# Contents
 
 These are the most important files in this project:
 
@@ -20,19 +20,19 @@ These are the most important files in this project:
 
 │   └── artifacts         #   Compiled versions of the contracts, for convenience
 
-# STATUS
+# Status
 
 This softwareis is in early ALPHA status! Many improvements are forthcoming!!
 
-# PURPOSE
+# Purpose
 
 The purpose of this repo is to show a bare-bones, frameworkless example of using Taquito to interact with a Tezos Smart Contract.
 
-# LOOK MA: NO FRAMEWORK!
+# Look Ma: No Framework!
 
-Yup, you read it correctly: No frameworks was harmed (or used) while this project was growing. It is vanilla TypeScript and Taquito, just HTML5 and CSS wired up to DOM events.
+Yup, you read it correctly: no frameworks were harmed (or even used!) in the production of this project. It is vanilla TypeScript/Taquito, HTML5 and CSS wired up to DOM events.
 
-# REQUIREMENTS
+# Requirements
 
 * A Tezos wallet with some test Tez on GhostNet (Kukai recommended)
 
@@ -41,7 +41,7 @@ Yup, you read it correctly: No frameworks was harmed (or used) while this projec
 * taqueria
 * ligo
 
-# HOW TO RUN THE DAPP
+# How to Run the dApp
 
 ```
 $ source go.sh     # Get access to handy aliases etc
@@ -52,7 +52,7 @@ $ npm run start    # or, 'nrs'
 
 Navigate to http://localhost:1234 and you should see the dApp UI. It is very basic!
 
-# HOW TO PLAY
+# How to Play
 
 Each `New Game` is associated with the connected Wallet, so that many players can simultaneously play! So, when you look at the contract's storage, you will see other Wallet's games' storage.
 
@@ -67,15 +67,15 @@ You start at Level 1. Each round, the computer will add one to the sequence that
 
 When you have finished clicking your attempt, the dApp sends the attempt to the Smart Contract which updates the storage with the current level and the state (Playing, Won or Lost).
 
-## GAME STATE
+## Game State
 
 * `Playing` indicates that the game is still going (no mistakes!)
 * `Lost` indicates that the attempt failed
 * `Won` indicates that the final attempt was correct and the game is over
 
-BUG! Currently, the State is not being persisted to Storage!
+BUG! Currently, the State is not being persisted to Storage correctly!
 
-# MISCELLANEOUS FUNCTIONALITY
+# Miscellaneous Functionality
 
 * Originate a new copy of the memory contract by clicking `Originate`
 
@@ -83,14 +83,14 @@ Wait for the operation to finish, and then find the new contract address ('KT1..
 
 TODO: Contract link on ghostnet
 
-# EXTENSION IDEAS
+# Extension Ideas
 
 * Extend the contract interface with a facility to keep high score by address
 * Allow the user to select the length of the game/sequence
 
-## FURTHER INFO
+## Further Info
 
-## PARAMETER,STORAGE LIST
+## Parameter,Storage List
 
 * When you compile with `ligo`, it auto-creates both `<contract>.{parameter,storage}List.mligo` for you
 * These files can be used to selectively test and run the contracts for convenience
