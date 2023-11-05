@@ -28,3 +28,17 @@ install_plugins() {
     taq install @taqueria/plugin-ligo
     taq install @taqueria/plugin-taquito
 }
+
+generate_json() {
+    ligo compile contract --michelson-format json contracts/memory.mligo -m Memory
+}
+
+update_contract_json() {
+    local updated_json=generate_json
+    (( $? != 0 )) && { echo 'Error generating json...'; return 1 }
+    generate_json > ../dapp/dist/memory.json
+}
+
+generate_michelson() {
+    taq compile memory.mligo
+}
