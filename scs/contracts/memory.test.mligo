@@ -15,7 +15,7 @@ let initial_storage = {
 let test_new_game =
     let initial_sequence = [2;1;3] in
     // Initialize a new game with the initial_sequence to remember
-    let initial_storage = init_new_game Map.empty alice initial_sequence in
+    let (_, initial_storage) = Memory.init_new_game (alice, initial_sequence) Map.empty in
     let actual_game_state = match Map.find_opt alice initial_storage with
         | Some game_state -> game_state
         | None -> failwith "Game state not found" in
@@ -27,10 +27,10 @@ let test_new_game =
 
 let test_play_first_turn_success =
     let sequence = [2;3;2;1] in
-    let game = init_new_game Map.empty alice sequence in
+    let (_, game) = Memory.init_new_game (alice, sequence) Map.empty in
     // Alice correctly plays her first_turn
     let first_turn = [2] in
-    let game = play_turn game alice first_turn in
+    let (_, game) = Memory.play_turn (alice, first_turn) game in
     let actual_game_state = match Map.find_opt alice game with
         | Some game_state -> game_state
         | None -> failwith "Game state not found" in
@@ -40,10 +40,10 @@ let test_play_first_turn_success =
 
 let test_play_first_turn_failure =
     let sequence = [2] in
-    let game = init_new_game Map.empty alice sequence in
+    let (_, game) = Memory.init_new_game (alice, sequence) Map.empty in
     // Alice incorrectly plays her first_turn
     let first_turn = [1] in
-    let game = play_turn game alice first_turn in
+    let (_, game) = Memory.play_turn (alice, first_turn) game in
     let actual_game_state = match Map.find_opt alice game with
         | Some game_state -> game_state
         | None -> failwith "Game state not found" in
@@ -53,12 +53,12 @@ let test_play_first_turn_failure =
 
 let test_play_wins =
     let sequence = [4;2] in
-    let game = init_new_game Map.empty alice sequence in
+    let (_, game) = Memory.init_new_game (alice, sequence) Map.empty in
     // Alice must play her first_turn correctly to advance to the next level
-    let game = play_turn game alice [4] in
+    let (_, game) = Memory.play_turn (alice, [4]) game in
     // Alice correctly plays her final turn and wins!
     let last_turn = [4;2] in
-    let game = play_turn game alice last_turn in
+    let (_, game) = Memory.play_turn (alice, last_turn) game in
     let actual_game_state = match Map.find_opt alice game with
         | Some game_state -> game_state
         | None -> failwith "Game state not found" in
@@ -66,10 +66,28 @@ let test_play_wins =
     let _ = Test.assert(actual_game_state.status = Won) in
     Test.assert(actual_game_state.sequence = sequence)
 
-let test_status_won = Test.assert(Won = _calculate_status [1] [1])
-let test_status_won = Test.assert(Lost = _calculate_status [1] [2])
-let test_status_playing = Test.assert(Playing = _calculate_status [1] [1;2])
+let test_originate =
+    let {addr;code=_;size=_} = Test.originate (contract_of Memory) Map.empty (0tez) in
+    let expected_storage: Memory.storage = Map.empty in
+    assert (expected_storage = Test.get_storage addr)
 
-let test_status_won_multi = Test.assert(Won = _calculate_status [1;2] [1;2])
-let test_status_playing_multi = Test.assert(Playing = _calculate_status [1;2] [1;2;3])
-let test_status_lost_multi = Test.assert(Lost = _calculate_status [1;2] [1;3])
+let test_win_integration =
+    let _ = Test.set_source alice in
+    let {addr;code=_;size=_} = Test.originate (contract_of Memory) Map.empty (0tez) in
+    let sequence = [3] in
+    let (_, game) = Memory.init_new_game (alice, sequence) Map.empty in
+    let _ = Memory.play_turn (alice, sequence) game in
+    let actual_storage = Test.get_storage addr in
+    let actual_game_state = match Map.find_opt alice actual_storage with
+        | Some game_state -> game_state
+        | None -> Test.println actual_storage in
+    let _ = Test.assert(actual_game_state.level = 1) in
+    Test.assert(actual_game_state.status = Won)
+
+let test_status_won = Test.assert(Won = Memory._calculate_status [3] [3])
+let test_status_won = Test.assert(Lost = Memory._calculate_status [1] [2])
+let test_status_playing = Test.assert(Playing = Memory._calculate_status [1] [1;2])
+
+let test_status_won_multi = Test.assert(Won = Memory._calculate_status [1;2] [1;2])
+let test_status_playing_multi = Test.assert(Playing = Memory._calculate_status [1;2] [1;2;3])
+let test_status_lost_multi = Test.assert(Lost = Memory._calculate_status [1;2] [1;3])
