@@ -3,5 +3,7 @@ artifacts
 .taq/*-state.json
 .taq/config.local.*.json
 node_modules/.ligo/
+
 .taq/
 .ligo/
+node_modules/
